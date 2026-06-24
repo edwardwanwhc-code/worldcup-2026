@@ -2204,7 +2204,7 @@ function renderStats() {
     return acc + parseInt(parts[0]) + parseInt(parts[1]);
   }, 0);
   const topScorer = DATA.scorers[0];
-  const mostYellow = { team: "德國 <img class="flag-img" src="https://flagcdn.com/w160/de.png" alt="">", count: 8 };
+  const mostYellow = { team: "德國", flag: "https://flagcdn.com/w160/de.png", count: 8 };
   const playedMatches = DATA.matches.filter(m => m.score).length;
   const avgGoals = playedMatches > 0 ? (totalGoals / playedMatches).toFixed(1) : '0.0';
 
@@ -2221,7 +2221,7 @@ function renderStats() {
     </div>
     <div class="kpi-card" style="--kpi-color:var(--red)">
       <div class="kpi-label">最多黃牌隊伍</div>
-      <div class="kpi-value" style="font-size:1.4rem;">${mostYellow.team}</div>
+      <div class="kpi-value" style="font-size:1.4rem;"><img class="flag-img" src="${mostYellow.flag}" alt=""> ${mostYellow.team}</div>
       <div class="kpi-sub">${mostYellow.count} 張黃牌</div>
     </div>
     <div class="kpi-card" style="--kpi-color:var(--green-dim)">
