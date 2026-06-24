@@ -395,24 +395,29 @@ body {
   text-align: right;
 }
 .team-flag {
-  font-size: 2.6rem;
-  line-height: 1;
+  width: 48px;
+  height: 32px;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255,215,0,0.12) 0%, rgba(255,107,0,0.06) 100%);
-  border: 1px solid rgba(255,215,0,0.15);
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.12);
   transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 .match-card:hover .team-flag {
-  transform: scale(1.12);
-  background: linear-gradient(135deg, rgba(255,215,0,0.22) 0%, rgba(255,107,0,0.12) 100%);
-  border-color: rgba(255,215,0,0.4);
-  box-shadow: 0 0 18px rgba(255,215,0,0.2);
+  transform: scale(1.15);
+  border-color: rgba(255,215,0,0.5);
+  box-shadow: 0 0 16px rgba(255,215,0,0.25), 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Generic flag-img class for all flag <img> tags */
+.flag-img {
+  width: 40px;
+  height: 26px;
+  border-radius: 3px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.1);
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 .team-name {
   font-family: 'Barlow Condensed', sans-serif;
@@ -641,7 +646,7 @@ body {
   flex-shrink: 0;
 }
 .scorer-rank.top { color: var(--gold); }
-.scorer-flag { font-size: 1.6rem; flex-shrink: 0; }
+.scorer-flag { width: 32px; height: 21px; border-radius: 2px; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.08); }
 .scorer-info { flex: 1; }
 .scorer-name {
   font-weight: 600;
@@ -714,9 +719,10 @@ body {
   align-items: center;
   gap: 10px;
 }
-.team-cell span:first-child {
-  font-size: 1.3rem;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+.team-cell .flag-img {
+  width: 28px;
+  height: 19px;
+  border-radius: 2px;
 }
 
 /* ===== QUALIFICATION PAGE ===== */
@@ -772,7 +778,7 @@ body {
   color: var(--text-muted);
   width: 16px;
 }
-.group-flag { font-size: 1.4rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
+.group-flag { width: 28px; height: 19px; border-radius: 2px; object-fit: cover; border: 1px solid rgba(255,255,255,0.08); }
 .group-team-name {
   flex: 1;
   font-size: 0.8rem;
@@ -853,7 +859,7 @@ body {
 }
 .bracket-team:last-child { border-bottom: none; }
 .bracket-team.winner { color: var(--gold); font-weight: 700; }
-.bracket-team-flag { font-size: 0.9rem; }
+.bracket-team-flag { width: 20px; height: 14px; border-radius: 1px; object-fit: cover; vertical-align: middle; }
 
 /* ===== VOTE PAGE ===== */
 .vote-grid {
@@ -1328,7 +1334,7 @@ body {
 }
 .odds-row:last-child { border-bottom: none; }
 .odds-team { display: flex; align-items: center; gap: 8px; width: 160px; flex-shrink: 0; }
-.odds-flag { font-size: 1.4rem; }
+.odds-flag { width: 24px; height: 16px; border-radius: 2px; object-fit: cover; border: 1px solid rgba(255,255,255,0.08); }
 .odds-name { font-size: 0.85rem; font-weight: 600; }
 .odds-bar-track {
   flex: 1;
@@ -1398,6 +1404,20 @@ body {
   .groups-grid { grid-template-columns: 1fr 1fr; }
   .vote-btns { grid-template-columns: 1fr; }
   .score-input-row { justify-content: center; }
+}
+
+/* Empty/placeholder flags */
+.flag-img[src=""], .flag-img:not([src]) {
+  display: none;
+}
+.flag-placeholder::before {
+  content: "⚽";
+  font-size: 1rem;
+}
+.flag-img:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+  cursor: default;
 }
 </style>
 </head>
@@ -1646,109 +1666,109 @@ const DATA = {
     A: {
       name: "A組",
       teams: [
-        { name: "墨西哥", flag: "🇲🇽", eng: "Mexico", p:2, w:2, d:0, l:0, gf:3, ga:0, gd:3, pts:6 },
-        { name: "韓國", flag: "🇰🇷", eng: "South Korea", p:2, w:1, d:0, l:1, gf:2, ga:2, gd:0, pts:3 },
-        { name: "捷克", flag: "🇨🇿", eng: "Czech Republic", p:2, w:0, d:1, l:1, gf:2, ga:3, gd:-1, pts:1 },
-        { name: "南非", flag: "🇿🇦", eng: "South Africa", p:2, w:0, d:1, l:1, gf:1, ga:3, gd:-2, pts:1 }
+        { name: "墨西哥", flag: "https://flagcdn.com/w160/mx.png", eng: "Mexico", p:2, w:2, d:0, l:0, gf:3, ga:0, gd:3, pts:6 },
+        { name: "韓國", flag: "https://flagcdn.com/w160/kr.png", eng: "South Korea", p:2, w:1, d:0, l:1, gf:2, ga:2, gd:0, pts:3 },
+        { name: "捷克", flag: "https://flagcdn.com/w160/cz.png", eng: "Czech Republic", p:2, w:0, d:1, l:1, gf:2, ga:3, gd:-1, pts:1 },
+        { name: "南非", flag: "https://flagcdn.com/w160/za.png", eng: "South Africa", p:2, w:0, d:1, l:1, gf:1, ga:3, gd:-2, pts:1 }
       ]
     },
     B: {
       name: "B組",
       teams: [
-        { name: "加拿大", flag: "🇨🇦", eng: "Canada", p:2, w:1, d:1, l:0, gf:7, ga:1, gd:6, pts:4 },
-        { name: "瑞士", flag: "🇨🇭", eng: "Switzerland", p:2, w:1, d:1, l:0, gf:5, ga:2, gd:3, pts:4 },
-        { name: "波黑", flag: "🇧🇦", eng: "Bosnia & Herzegovina", p:2, w:0, d:1, l:1, gf:2, ga:5, gd:-3, pts:1 },
-        { name: "卡塔爾", flag: "🇶🇦", eng: "Qatar", p:2, w:0, d:1, l:1, gf:1, ga:7, gd:-6, pts:1 }
+        { name: "加拿大", flag: "https://flagcdn.com/w160/ca.png", eng: "Canada", p:2, w:1, d:1, l:0, gf:7, ga:1, gd:6, pts:4 },
+        { name: "瑞士", flag: "https://flagcdn.com/w160/ch.png", eng: "Switzerland", p:2, w:1, d:1, l:0, gf:5, ga:2, gd:3, pts:4 },
+        { name: "波黑", flag: "https://flagcdn.com/w160/ba.png", eng: "Bosnia & Herzegovina", p:2, w:0, d:1, l:1, gf:2, ga:5, gd:-3, pts:1 },
+        { name: "卡塔爾", flag: "https://flagcdn.com/w160/qa.png", eng: "Qatar", p:2, w:0, d:1, l:1, gf:1, ga:7, gd:-6, pts:1 }
       ]
     },
     C: {
       name: "C組",
       teams: [
-        { name: "巴西", flag: "🇧🇷", eng: "Brazil", p:2, w:1, d:1, l:0, gf:4, ga:1, gd:3, pts:4 },
-        { name: "摩洛哥", flag: "🇲🇦", eng: "Morocco", p:2, w:1, d:1, l:0, gf:2, ga:1, gd:1, pts:4 },
-        { name: "蘇格蘭", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", eng: "Scotland", p:2, w:1, d:0, l:1, gf:1, ga:1, gd:0, pts:3 },
-        { name: "海地", flag: "🇭🇹", eng: "Haiti", p:2, w:0, d:0, l:2, gf:0, ga:4, gd:-4, pts:0 }
+        { name: "巴西", flag: "https://flagcdn.com/w160/br.png", eng: "Brazil", p:2, w:1, d:1, l:0, gf:4, ga:1, gd:3, pts:4 },
+        { name: "摩洛哥", flag: "https://flagcdn.com/w160/ma.png", eng: "Morocco", p:2, w:1, d:1, l:0, gf:2, ga:1, gd:1, pts:4 },
+        { name: "蘇格蘭", flag: "https://flagcdn.com/w160/gb-sct.png", eng: "Scotland", p:2, w:1, d:0, l:1, gf:1, ga:1, gd:0, pts:3 },
+        { name: "海地", flag: "https://flagcdn.com/w160/ht.png", eng: "Haiti", p:2, w:0, d:0, l:2, gf:0, ga:4, gd:-4, pts:0 }
       ]
     },
     D: {
       name: "D組",
       teams: [
-        { name: "美國", flag: "🇺🇸", eng: "United States", p:2, w:2, d:0, l:0, gf:6, ga:1, gd:5, pts:6 },
-        { name: "澳大利亞", flag: "🇦🇺", eng: "Australia", p:2, w:1, d:0, l:1, gf:2, ga:2, gd:0, pts:3 },
-        { name: "巴拉圭", flag: "🇵🇾", eng: "Paraguay", p:2, w:1, d:0, l:1, gf:2, ga:4, gd:-2, pts:3 },
-        { name: "土耳其", flag: "🇹🇷", eng: "Turkey", p:2, w:0, d:0, l:2, gf:0, ga:3, gd:-3, pts:0 }
+        { name: "美國", flag: "https://flagcdn.com/w160/us.png", eng: "United States", p:2, w:2, d:0, l:0, gf:6, ga:1, gd:5, pts:6 },
+        { name: "澳大利亞", flag: "https://flagcdn.com/w160/au.png", eng: "Australia", p:2, w:1, d:0, l:1, gf:2, ga:2, gd:0, pts:3 },
+        { name: "巴拉圭", flag: "https://flagcdn.com/w160/py.png", eng: "Paraguay", p:2, w:1, d:0, l:1, gf:2, ga:4, gd:-2, pts:3 },
+        { name: "土耳其", flag: "https://flagcdn.com/w160/tr.png", eng: "Turkey", p:2, w:0, d:0, l:2, gf:0, ga:3, gd:-3, pts:0 }
       ]
     },
     E: {
       name: "E組",
       teams: [
-        { name: "德國", flag: "🇩🇪", eng: "Germany", p:2, w:2, d:0, l:0, gf:9, ga:2, gd:7, pts:6 },
-        { name: "象牙海岸", flag: "🇨🇮", eng: "Ivory Coast", p:2, w:1, d:0, l:1, gf:2, ga:2, gd:0, pts:3 },
-        { name: "厄瓜多爾", flag: "🇪🇨", eng: "Ecuador", p:2, w:0, d:1, l:1, gf:0, ga:1, gd:-1, pts:1 },
-        { name: "庫拉索", flag: "🇨🇼", eng: "Curacao", p:2, w:0, d:1, l:1, gf:1, ga:7, gd:-6, pts:1 }
+        { name: "德國", flag: "https://flagcdn.com/w160/de.png", eng: "Germany", p:2, w:2, d:0, l:0, gf:9, ga:2, gd:7, pts:6 },
+        { name: "象牙海岸", flag: "https://flagcdn.com/w160/ci.png", eng: "Ivory Coast", p:2, w:1, d:0, l:1, gf:2, ga:2, gd:0, pts:3 },
+        { name: "厄瓜多爾", flag: "https://flagcdn.com/w160/ec.png", eng: "Ecuador", p:2, w:0, d:1, l:1, gf:0, ga:1, gd:-1, pts:1 },
+        { name: "庫拉索", flag: "https://flagcdn.com/w160/cw.png", eng: "Curacao", p:2, w:0, d:1, l:1, gf:1, ga:7, gd:-6, pts:1 }
       ]
     },
     F: {
       name: "F組",
       teams: [
-        { name: "荷蘭", flag: "🇳🇱", eng: "Netherlands", p:2, w:1, d:1, l:0, gf:7, ga:3, gd:4, pts:4 },
-        { name: "日本", flag: "🇯🇵", eng: "Japan", p:2, w:1, d:1, l:0, gf:6, ga:2, gd:4, pts:4 },
-        { name: "瑞典", flag: "🇸🇪", eng: "Sweden", p:2, w:1, d:0, l:1, gf:6, ga:6, gd:0, pts:3 },
-        { name: "突尼斯", flag: "🇹🇳", eng: "Tunisia", p:2, w:0, d:0, l:2, gf:2, ga:9, gd:-8, pts:0 }
+        { name: "荷蘭", flag: "https://flagcdn.com/w160/nl.png", eng: "Netherlands", p:2, w:1, d:1, l:0, gf:7, ga:3, gd:4, pts:4 },
+        { name: "日本", flag: "https://flagcdn.com/w160/jp.png", eng: "Japan", p:2, w:1, d:1, l:0, gf:6, ga:2, gd:4, pts:4 },
+        { name: "瑞典", flag: "https://flagcdn.com/w160/se.png", eng: "Sweden", p:2, w:1, d:0, l:1, gf:6, ga:6, gd:0, pts:3 },
+        { name: "突尼斯", flag: "https://flagcdn.com/w160/tn.png", eng: "Tunisia", p:2, w:0, d:0, l:2, gf:2, ga:9, gd:-8, pts:0 }
       ]
     },
     G: {
       name: "G組",
       teams: [
-        { name: "埃及", flag: "🇪🇬", eng: "Egypt", p:2, w:1, d:1, l:0, gf:4, ga:2, gd:2, pts:4 },
-        { name: "伊朗", flag: "🇮🇷", eng: "Iran", p:2, w:0, d:2, l:0, gf:2, ga:2, gd:0, pts:2 },
-        { name: "比利時", flag: "🇧🇪", eng: "Belgium", p:2, w:0, d:2, l:0, gf:1, ga:1, gd:0, pts:2 },
-        { name: "新西蘭", flag: "🇳🇿", eng: "New Zealand", p:2, w:0, d:1, l:1, gf:3, ga:5, gd:-2, pts:1 }
+        { name: "埃及", flag: "https://flagcdn.com/w160/eg.png", eng: "Egypt", p:2, w:1, d:1, l:0, gf:4, ga:2, gd:2, pts:4 },
+        { name: "伊朗", flag: "https://flagcdn.com/w160/ir.png", eng: "Iran", p:2, w:0, d:2, l:0, gf:2, ga:2, gd:0, pts:2 },
+        { name: "比利時", flag: "https://flagcdn.com/w160/be.png", eng: "Belgium", p:2, w:0, d:2, l:0, gf:1, ga:1, gd:0, pts:2 },
+        { name: "新西蘭", flag: "https://flagcdn.com/w160/nz.png", eng: "New Zealand", p:2, w:0, d:1, l:1, gf:3, ga:5, gd:-2, pts:1 }
       ]
     },
     H: {
       name: "H組",
       teams: [
-        { name: "西班牙", flag: "🇪🇸", eng: "Spain", p:2, w:1, d:1, l:0, gf:4, ga:0, gd:4, pts:4 },
-        { name: "烏拉圭", flag: "🇺🇾", eng: "Uruguay", p:2, w:0, d:2, l:0, gf:3, ga:3, gd:0, pts:2 },
-        { name: "佛得角", flag: "🇨🇻", eng: "Cape Verde", p:2, w:0, d:2, l:0, gf:2, ga:2, gd:0, pts:2 },
-        { name: "沙特阿拉伯", flag: "🇸🇦", eng: "Saudi Arabia", p:2, w:0, d:1, l:1, gf:1, ga:5, gd:-4, pts:1 }
+        { name: "西班牙", flag: "https://flagcdn.com/w160/es.png", eng: "Spain", p:2, w:1, d:1, l:0, gf:4, ga:0, gd:4, pts:4 },
+        { name: "烏拉圭", flag: "https://flagcdn.com/w160/uy.png", eng: "Uruguay", p:2, w:0, d:2, l:0, gf:3, ga:3, gd:0, pts:2 },
+        { name: "佛得角", flag: "https://flagcdn.com/w160/cv.png", eng: "Cape Verde", p:2, w:0, d:2, l:0, gf:2, ga:2, gd:0, pts:2 },
+        { name: "沙特阿拉伯", flag: "https://flagcdn.com/w160/sa.png", eng: "Saudi Arabia", p:2, w:0, d:1, l:1, gf:1, ga:5, gd:-4, pts:1 }
       ]
     },
     I: {
       name: "I組",
       teams: [
-        { name: "法國", flag: "🇫🇷", eng: "France", p:2, w:2, d:0, l:0, gf:6, ga:1, gd:5, pts:6 },
-        { name: "挪威", flag: "🇳🇴", eng: "Norway", p:2, w:2, d:0, l:0, gf:7, ga:3, gd:4, pts:6 },
-        { name: "塞內加爾", flag: "🇸🇳", eng: "Senegal", p:2, w:0, d:0, l:2, gf:3, ga:6, gd:-3, pts:0 },
-        { name: "伊拉克", flag: "🇮🇶", eng: "Iraq", p:2, w:0, d:0, l:2, gf:1, ga:7, gd:-6, pts:0 }
+        { name: "法國", flag: "https://flagcdn.com/w160/fr.png", eng: "France", p:2, w:2, d:0, l:0, gf:6, ga:1, gd:5, pts:6 },
+        { name: "挪威", flag: "https://flagcdn.com/w160/no.png", eng: "Norway", p:2, w:2, d:0, l:0, gf:7, ga:3, gd:4, pts:6 },
+        { name: "塞內加爾", flag: "https://flagcdn.com/w160/sn.png", eng: "Senegal", p:2, w:0, d:0, l:2, gf:3, ga:6, gd:-3, pts:0 },
+        { name: "伊拉克", flag: "https://flagcdn.com/w160/iq.png", eng: "Iraq", p:2, w:0, d:0, l:2, gf:1, ga:7, gd:-6, pts:0 }
       ]
     },
     J: {
       name: "J組",
       teams: [
-        { name: "阿根廷", flag: "🇦🇷", eng: "Argentina", p:2, w:2, d:0, l:0, gf:5, ga:0, gd:5, pts:6 },
-        { name: "奧地利", flag: "🇦🇹", eng: "Austria", p:2, w:1, d:0, l:1, gf:3, ga:3, gd:0, pts:3 },
-        { name: "阿爾及利亞", flag: "🇩🇿", eng: "Algeria", p:2, w:1, d:0, l:1, gf:2, ga:4, gd:-2, pts:3 },
-        { name: "約旦", flag: "🇯🇴", eng: "Jordan", p:2, w:0, d:0, l:2, gf:2, ga:5, gd:-3, pts:0 }
+        { name: "阿根廷", flag: "https://flagcdn.com/w160/ar.png", eng: "Argentina", p:2, w:2, d:0, l:0, gf:5, ga:0, gd:5, pts:6 },
+        { name: "奧地利", flag: "https://flagcdn.com/w160/at.png", eng: "Austria", p:2, w:1, d:0, l:1, gf:3, ga:3, gd:0, pts:3 },
+        { name: "阿爾及利亞", flag: "https://flagcdn.com/w160/dz.png", eng: "Algeria", p:2, w:1, d:0, l:1, gf:2, ga:4, gd:-2, pts:3 },
+        { name: "約旦", flag: "https://flagcdn.com/w160/jo.png", eng: "Jordan", p:2, w:0, d:0, l:2, gf:2, ga:5, gd:-3, pts:0 }
       ]
     },
     K: {
       name: "K組",
       teams: [
-        { name: "哥倫比亞", flag: "🇨🇴", eng: "Colombia", p:2, w:2, d:0, l:0, gf:4, ga:1, gd:3, pts:6 },
-        { name: "葡萄牙", flag: "🇵🇹", eng: "Portugal", p:2, w:1, d:1, l:0, gf:6, ga:1, gd:5, pts:4 },
-        { name: "剛果民主", flag: "🇨🇩", eng: "DR Congo", p:2, w:0, d:1, l:1, gf:1, ga:2, gd:-1, pts:1 },
-        { name: "烏茲別克", flag: "🇺🇿", eng: "Uzbekistan", p:2, w:0, d:0, l:2, gf:1, ga:8, gd:-7, pts:0 }
+        { name: "哥倫比亞", flag: "https://flagcdn.com/w160/co.png", eng: "Colombia", p:2, w:2, d:0, l:0, gf:4, ga:1, gd:3, pts:6 },
+        { name: "葡萄牙", flag: "https://flagcdn.com/w160/pt.png", eng: "Portugal", p:2, w:1, d:1, l:0, gf:6, ga:1, gd:5, pts:4 },
+        { name: "剛果民主", flag: "https://flagcdn.com/w160/cd.png", eng: "DR Congo", p:2, w:0, d:1, l:1, gf:1, ga:2, gd:-1, pts:1 },
+        { name: "烏茲別克", flag: "https://flagcdn.com/w160/uz.png", eng: "Uzbekistan", p:2, w:0, d:0, l:2, gf:1, ga:8, gd:-7, pts:0 }
       ]
     },
     L: {
       name: "L組",
       teams: [
-        { name: "英格蘭", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", eng: "England", p:2, w:1, d:1, l:0, gf:4, ga:2, gd:2, pts:4 },
-        { name: "加納", flag: "🇬🇭", eng: "Ghana", p:2, w:1, d:1, l:0, gf:1, ga:0, gd:1, pts:4 },
-        { name: "克羅地亞", flag: "🇭🇷", eng: "Croatia", p:2, w:1, d:0, l:1, gf:3, ga:4, gd:-1, pts:3 },
-        { name: "巴拿馬", flag: "🇵🇦", eng: "Panama", p:2, w:0, d:0, l:2, gf:0, ga:2, gd:-2, pts:0 }
+        { name: "英格蘭", flag: "https://flagcdn.com/w160/gb-eng.png", eng: "England", p:2, w:1, d:1, l:0, gf:4, ga:2, gd:2, pts:4 },
+        { name: "加納", flag: "https://flagcdn.com/w160/gh.png", eng: "Ghana", p:2, w:1, d:1, l:0, gf:1, ga:0, gd:1, pts:4 },
+        { name: "克羅地亞", flag: "https://flagcdn.com/w160/hr.png", eng: "Croatia", p:2, w:1, d:0, l:1, gf:3, ga:4, gd:-1, pts:3 },
+        { name: "巴拿馬", flag: "https://flagcdn.com/w160/pa.png", eng: "Panama", p:2, w:0, d:0, l:2, gf:0, ga:2, gd:-2, pts:0 }
       ]
     }
   },
@@ -1756,120 +1776,120 @@ const DATA = {
   // REAL 2026 WORLD CUP SCHEDULE
   matches: [
     // GROUP A
-    { id:1, date:"2026-06-11", time:"02:00", group:"A組", homeTeam:"墨西哥", homeFlag:"🇲🇽", awayTeam:"南非", awayFlag:"🇿🇦", venue:"墨西哥城球場", score:"2-0", status:"finished" },
-    { id:2, date:"2026-06-11", time:"23:00", group:"A組", homeTeam:"韓國", homeFlag:"🇰🇷", awayTeam:"捷克", awayFlag:"🇨🇿", venue:"瓜達拉哈拉球場", score:"2-1", status:"finished" },
-    { id:3, date:"2026-06-18", time:"22:00", group:"A組", homeTeam:"捷克", homeFlag:"🇨🇿", awayTeam:"南非", awayFlag:"🇿🇦", venue:"亞特蘭大球場", score:"1-1", status:"finished" },
-    { id:4, date:"2026-06-18", time:"22:00", group:"A組", homeTeam:"墨西哥", homeFlag:"🇲🇽", awayTeam:"韓國", awayFlag:"🇰🇷", venue:"瓜達拉哈拉球場", score:"1-0", status:"finished" },
-    { id:5, date:"2026-06-24", time:"22:00", group:"A組", homeTeam:"捷克", homeFlag:"🇨🇿", awayTeam:"墨西哥", awayFlag:"🇲🇽", venue:"墨西哥城球場", score:null, status:"upcoming" },
-    { id:6, date:"2026-06-24", time:"22:00", group:"A組", homeTeam:"南非", homeFlag:"🇿🇦", awayTeam:"韓國", awayFlag:"🇰🇷", venue:"蒙特雷球場", score:null, status:"upcoming" },
+    { id:1, date:"2026-06-11", time:"02:00", group:"A組", homeTeam:"墨西哥", homeFlag:"https://flagcdn.com/w160/mx.png", awayTeam:"南非", awayFlag:"https://flagcdn.com/w160/za.png", venue:"墨西哥城球場", score:"2-0", status:"finished" },
+    { id:2, date:"2026-06-11", time:"23:00", group:"A組", homeTeam:"韓國", homeFlag:"https://flagcdn.com/w160/kr.png", awayTeam:"捷克", awayFlag:"https://flagcdn.com/w160/cz.png", venue:"瓜達拉哈拉球場", score:"2-1", status:"finished" },
+    { id:3, date:"2026-06-18", time:"22:00", group:"A組", homeTeam:"捷克", homeFlag:"https://flagcdn.com/w160/cz.png", awayTeam:"南非", awayFlag:"https://flagcdn.com/w160/za.png", venue:"亞特蘭大球場", score:"1-1", status:"finished" },
+    { id:4, date:"2026-06-18", time:"22:00", group:"A組", homeTeam:"墨西哥", homeFlag:"https://flagcdn.com/w160/mx.png", awayTeam:"韓國", awayFlag:"https://flagcdn.com/w160/kr.png", venue:"瓜達拉哈拉球場", score:"1-0", status:"finished" },
+    { id:5, date:"2026-06-24", time:"22:00", group:"A組", homeTeam:"捷克", homeFlag:"https://flagcdn.com/w160/cz.png", awayTeam:"墨西哥", awayFlag:"https://flagcdn.com/w160/mx.png", venue:"墨西哥城球場", score:null, status:"upcoming" },
+    { id:6, date:"2026-06-24", time:"22:00", group:"A組", homeTeam:"南非", homeFlag:"https://flagcdn.com/w160/za.png", awayTeam:"韓國", awayFlag:"https://flagcdn.com/w160/kr.png", venue:"蒙特雷球場", score:null, status:"upcoming" },
     // GROUP B
-    { id:7, date:"2026-06-12", time:"02:00", group:"B組", homeTeam:"加拿大", homeFlag:"🇨🇦", awayTeam:"波黑", awayFlag:"🇧🇦", venue:"多倫多球場", score:"1-1", status:"finished" },
-    { id:8, date:"2026-06-13", time:"02:00", group:"B組", homeTeam:"卡塔爾", homeFlag:"🇶🇦", awayTeam:"瑞士", awayFlag:"🇨🇭", venue:"舊金山灣區球場", score:"1-1", status:"finished" },
-    { id:9, date:"2026-06-18", time:"22:00", group:"B組", homeTeam:"瑞士", homeFlag:"🇨🇭", awayTeam:"波黑", awayFlag:"🇧🇦", venue:"洛杉磯球場", score:"4-1", status:"finished" },
-    { id:10, date:"2026-06-18", time:"22:00", group:"B組", homeTeam:"加拿大", homeFlag:"🇨🇦", awayTeam:"卡塔爾", awayFlag:"🇶🇦", venue:"溫哥華BC球場", score:"6-0", status:"finished" },
-    { id:11, date:"2026-06-24", time:"23:00", group:"B組", homeTeam:"瑞士", homeFlag:"🇨🇭", awayTeam:"加拿大", awayFlag:"🇨🇦", venue:"溫哥華BC球場", score:null, status:"upcoming" },
-    { id:12, date:"2026-06-24", time:"23:00", group:"B組", homeTeam:"波黑", homeFlag:"🇧🇦", awayTeam:"卡塔爾", awayFlag:"🇶🇦", venue:"西雅圖球場", score:null, status:"upcoming" },
+    { id:7, date:"2026-06-12", time:"02:00", group:"B組", homeTeam:"加拿大", homeFlag:"https://flagcdn.com/w160/ca.png", awayTeam:"波黑", awayFlag:"https://flagcdn.com/w160/ba.png", venue:"多倫多球場", score:"1-1", status:"finished" },
+    { id:8, date:"2026-06-13", time:"02:00", group:"B組", homeTeam:"卡塔爾", homeFlag:"https://flagcdn.com/w160/qa.png", awayTeam:"瑞士", awayFlag:"https://flagcdn.com/w160/ch.png", venue:"舊金山灣區球場", score:"1-1", status:"finished" },
+    { id:9, date:"2026-06-18", time:"22:00", group:"B組", homeTeam:"瑞士", homeFlag:"https://flagcdn.com/w160/ch.png", awayTeam:"波黑", awayFlag:"https://flagcdn.com/w160/ba.png", venue:"洛杉磯球場", score:"4-1", status:"finished" },
+    { id:10, date:"2026-06-18", time:"22:00", group:"B組", homeTeam:"加拿大", homeFlag:"https://flagcdn.com/w160/ca.png", awayTeam:"卡塔爾", awayFlag:"https://flagcdn.com/w160/qa.png", venue:"溫哥華BC球場", score:"6-0", status:"finished" },
+    { id:11, date:"2026-06-24", time:"23:00", group:"B組", homeTeam:"瑞士", homeFlag:"https://flagcdn.com/w160/ch.png", awayTeam:"加拿大", awayFlag:"https://flagcdn.com/w160/ca.png", venue:"溫哥華BC球場", score:null, status:"upcoming" },
+    { id:12, date:"2026-06-24", time:"23:00", group:"B組", homeTeam:"波黑", homeFlag:"https://flagcdn.com/w160/ba.png", awayTeam:"卡塔爾", awayFlag:"https://flagcdn.com/w160/qa.png", venue:"西雅圖球場", score:null, status:"upcoming" },
     // GROUP C
-    { id:13, date:"2026-06-13", time:"02:00", group:"C組", homeTeam:"巴西", homeFlag:"🇧🇷", awayTeam:"摩洛哥", awayFlag:"🇲🇦", venue:"紐約/新澤西球場", score:"1-1", status:"finished" },
-    { id:14, date:"2026-06-13", time:"22:00", group:"C組", homeTeam:"海地", homeFlag:"🇭🇹", awayTeam:"蘇格蘭", awayFlag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", venue:"波士頓球場", score:"0-1", status:"finished" },
-    { id:15, date:"2026-06-19", time:"22:00", group:"C組", homeTeam:"巴西", homeFlag:"🇧🇷", awayTeam:"海地", awayFlag:"🇭🇹", venue:"費城球場", score:"3-0", status:"finished" },
-    { id:16, date:"2026-06-19", time:"22:00", group:"C組", homeTeam:"蘇格蘭", homeFlag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", awayTeam:"摩洛哥", awayFlag:"🇲🇦", venue:"波士頓球場", score:"0-1", status:"finished" },
-    { id:17, date:"2026-06-24", time:"22:00", group:"C組", homeTeam:"蘇格蘭", homeFlag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", awayTeam:"巴西", awayFlag:"🇧🇷", venue:"邁阿密球場", score:null, status:"upcoming" },
-    { id:18, date:"2026-06-24", time:"22:00", group:"C組", homeTeam:"摩洛哥", homeFlag:"🇲🇦", awayTeam:"海地", awayFlag:"🇭🇹", venue:"亞特蘭大球場", score:null, status:"upcoming" },
+    { id:13, date:"2026-06-13", time:"02:00", group:"C組", homeTeam:"巴西", homeFlag:"https://flagcdn.com/w160/br.png", awayTeam:"摩洛哥", awayFlag:"https://flagcdn.com/w160/ma.png", venue:"紐約/新澤西球場", score:"1-1", status:"finished" },
+    { id:14, date:"2026-06-13", time:"22:00", group:"C組", homeTeam:"海地", homeFlag:"https://flagcdn.com/w160/ht.png", awayTeam:"蘇格蘭", awayFlag:"https://flagcdn.com/w160/gb-sct.png", venue:"波士頓球場", score:"0-1", status:"finished" },
+    { id:15, date:"2026-06-19", time:"22:00", group:"C組", homeTeam:"巴西", homeFlag:"https://flagcdn.com/w160/br.png", awayTeam:"海地", awayFlag:"https://flagcdn.com/w160/ht.png", venue:"費城球場", score:"3-0", status:"finished" },
+    { id:16, date:"2026-06-19", time:"22:00", group:"C組", homeTeam:"蘇格蘭", homeFlag:"https://flagcdn.com/w160/gb-sct.png", awayTeam:"摩洛哥", awayFlag:"https://flagcdn.com/w160/ma.png", venue:"波士頓球場", score:"0-1", status:"finished" },
+    { id:17, date:"2026-06-24", time:"22:00", group:"C組", homeTeam:"蘇格蘭", homeFlag:"https://flagcdn.com/w160/gb-sct.png", awayTeam:"巴西", awayFlag:"https://flagcdn.com/w160/br.png", venue:"邁阿密球場", score:null, status:"upcoming" },
+    { id:18, date:"2026-06-24", time:"22:00", group:"C組", homeTeam:"摩洛哥", homeFlag:"https://flagcdn.com/w160/ma.png", awayTeam:"海地", awayFlag:"https://flagcdn.com/w160/ht.png", venue:"亞特蘭大球場", score:null, status:"upcoming" },
     // GROUP D
-    { id:19, date:"2026-06-13", time:"02:00", group:"D組", homeTeam:"美國", homeFlag:"🇺🇸", awayTeam:"巴拉圭", awayFlag:"🇵🇾", venue:"洛杉磯球場", score:"4-1", status:"finished" },
-    { id:20, date:"2026-06-14", time:"02:00", group:"D組", homeTeam:"澳大利亞", homeFlag:"🇦🇺", awayTeam:"土耳其", awayFlag:"🇹🇷", venue:"溫哥華BC球場", score:"2-0", status:"finished" },
-    { id:21, date:"2026-06-19", time:"22:00", group:"D組", homeTeam:"美國", homeFlag:"🇺🇸", awayTeam:"澳大利亞", awayFlag:"🇦🇺", venue:"西雅圖球場", score:"2-0", status:"finished" },
-    { id:22, date:"2026-06-20", time:"22:00", group:"D組", homeTeam:"土耳其", homeFlag:"🇹🇷", awayTeam:"巴拉圭", awayFlag:"🇵🇾", venue:"舊金山灣區球場", score:"0-1", status:"finished" },
-    { id:23, date:"2026-06-25", time:"23:00", group:"D組", homeTeam:"土耳其", homeFlag:"🇹🇷", awayTeam:"美國", awayFlag:"🇺🇸", venue:"洛杉磯球場", score:null, status:"upcoming" },
-    { id:24, date:"2026-06-25", time:"23:00", group:"D組", homeTeam:"巴拉圭", homeFlag:"🇵🇾", awayTeam:"澳大利亞", awayFlag:"🇦🇺", venue:"舊金山灣區球場", score:null, status:"upcoming" },
+    { id:19, date:"2026-06-13", time:"02:00", group:"D組", homeTeam:"美國", homeFlag:"https://flagcdn.com/w160/us.png", awayTeam:"巴拉圭", awayFlag:"https://flagcdn.com/w160/py.png", venue:"洛杉磯球場", score:"4-1", status:"finished" },
+    { id:20, date:"2026-06-14", time:"02:00", group:"D組", homeTeam:"澳大利亞", homeFlag:"https://flagcdn.com/w160/au.png", awayTeam:"土耳其", awayFlag:"https://flagcdn.com/w160/tr.png", venue:"溫哥華BC球場", score:"2-0", status:"finished" },
+    { id:21, date:"2026-06-19", time:"22:00", group:"D組", homeTeam:"美國", homeFlag:"https://flagcdn.com/w160/us.png", awayTeam:"澳大利亞", awayFlag:"https://flagcdn.com/w160/au.png", venue:"西雅圖球場", score:"2-0", status:"finished" },
+    { id:22, date:"2026-06-20", time:"22:00", group:"D組", homeTeam:"土耳其", homeFlag:"https://flagcdn.com/w160/tr.png", awayTeam:"巴拉圭", awayFlag:"https://flagcdn.com/w160/py.png", venue:"舊金山灣區球場", score:"0-1", status:"finished" },
+    { id:23, date:"2026-06-25", time:"23:00", group:"D組", homeTeam:"土耳其", homeFlag:"https://flagcdn.com/w160/tr.png", awayTeam:"美國", awayFlag:"https://flagcdn.com/w160/us.png", venue:"洛杉磯球場", score:null, status:"upcoming" },
+    { id:24, date:"2026-06-25", time:"23:00", group:"D組", homeTeam:"巴拉圭", homeFlag:"https://flagcdn.com/w160/py.png", awayTeam:"澳大利亞", awayFlag:"https://flagcdn.com/w160/au.png", venue:"舊金山灣區球場", score:null, status:"upcoming" },
     // GROUP E
-    { id:25, date:"2026-06-14", time:"02:00", group:"E組", homeTeam:"德國", homeFlag:"🇩🇪", awayTeam:"庫拉索", awayFlag:"🇨🇼", venue:"休斯頓球場", score:"7-1", status:"finished" },
-    { id:26, date:"2026-06-14", time:"22:00", group:"E組", homeTeam:"象牙海岸", homeFlag:"🇨🇮", awayTeam:"厄瓜多爾", awayFlag:"🇪🇨", venue:"費城球場", score:"1-0", status:"finished" },
-    { id:27, date:"2026-06-20", time:"22:00", group:"E組", homeTeam:"德國", homeFlag:"🇩🇪", awayTeam:"象牙海岸", awayFlag:"🇨🇮", venue:"多倫多球場", score:"2-1", status:"finished" },
-    { id:28, date:"2026-06-21", time:"22:00", group:"E組", homeTeam:"厄瓜多爾", homeFlag:"🇪🇨", awayTeam:"庫拉索", awayFlag:"🇨🇼", venue:"堪薩斯城球場", score:"0-0", status:"finished" },
-    { id:29, date:"2026-06-25", time:"22:00", group:"E組", homeTeam:"庫拉索", homeFlag:"🇨🇼", awayTeam:"象牙海岸", awayFlag:"🇨🇮", venue:"費城球場", score:null, status:"upcoming" },
-    { id:30, date:"2026-06-25", time:"22:00", group:"E組", homeTeam:"厄瓜多爾", homeFlag:"🇪🇨", awayTeam:"德國", awayFlag:"🇩🇪", venue:"紐約/新澤西球場", score:null, status:"upcoming" },
+    { id:25, date:"2026-06-14", time:"02:00", group:"E組", homeTeam:"德國", homeFlag:"https://flagcdn.com/w160/de.png", awayTeam:"庫拉索", awayFlag:"https://flagcdn.com/w160/cw.png", venue:"休斯頓球場", score:"7-1", status:"finished" },
+    { id:26, date:"2026-06-14", time:"22:00", group:"E組", homeTeam:"象牙海岸", homeFlag:"https://flagcdn.com/w160/ci.png", awayTeam:"厄瓜多爾", awayFlag:"https://flagcdn.com/w160/ec.png", venue:"費城球場", score:"1-0", status:"finished" },
+    { id:27, date:"2026-06-20", time:"22:00", group:"E組", homeTeam:"德國", homeFlag:"https://flagcdn.com/w160/de.png", awayTeam:"象牙海岸", awayFlag:"https://flagcdn.com/w160/ci.png", venue:"多倫多球場", score:"2-1", status:"finished" },
+    { id:28, date:"2026-06-21", time:"22:00", group:"E組", homeTeam:"厄瓜多爾", homeFlag:"https://flagcdn.com/w160/ec.png", awayTeam:"庫拉索", awayFlag:"https://flagcdn.com/w160/cw.png", venue:"堪薩斯城球場", score:"0-0", status:"finished" },
+    { id:29, date:"2026-06-25", time:"22:00", group:"E組", homeTeam:"庫拉索", homeFlag:"https://flagcdn.com/w160/cw.png", awayTeam:"象牙海岸", awayFlag:"https://flagcdn.com/w160/ci.png", venue:"費城球場", score:null, status:"upcoming" },
+    { id:30, date:"2026-06-25", time:"22:00", group:"E組", homeTeam:"厄瓜多爾", homeFlag:"https://flagcdn.com/w160/ec.png", awayTeam:"德國", awayFlag:"https://flagcdn.com/w160/de.png", venue:"紐約/新澤西球場", score:null, status:"upcoming" },
     // GROUP F
-    { id:31, date:"2026-06-14", time:"02:00", group:"F組", homeTeam:"荷蘭", homeFlag:"🇳🇱", awayTeam:"日本", awayFlag:"🇯🇵", venue:"達拉斯球場", score:"2-2", status:"finished" },
-    { id:32, date:"2026-06-15", time:"00:00", group:"F組", homeTeam:"瑞典", homeFlag:"🇸🇪", awayTeam:"突尼斯", awayFlag:"🇹🇳", venue:"蒙特雷球場", score:"5-1", status:"finished" },
-    { id:33, date:"2026-06-20", time:"22:00", group:"F組", homeTeam:"荷蘭", homeFlag:"🇳🇱", awayTeam:"瑞典", awayFlag:"🇸🇪", venue:"休斯頓球場", score:"5-1", status:"finished" },
-    { id:34, date:"2026-06-21", time:"23:00", group:"F組", homeTeam:"突尼斯", homeFlag:"🇹🇳", awayTeam:"日本", awayFlag:"🇯🇵", venue:"蒙特雷球場", score:"0-4", status:"finished" },
-    { id:35, date:"2026-06-25", time:"22:00", group:"F組", homeTeam:"日本", homeFlag:"🇯🇵", awayTeam:"瑞典", awayFlag:"🇸🇪", venue:"達拉斯球場", score:null, status:"upcoming" },
-    { id:36, date:"2026-06-25", time:"22:00", group:"F組", homeTeam:"突尼斯", homeFlag:"🇹🇳", awayTeam:"荷蘭", awayFlag:"🇳🇱", venue:"堪薩斯城球場", score:null, status:"upcoming" },
+    { id:31, date:"2026-06-14", time:"02:00", group:"F組", homeTeam:"荷蘭", homeFlag:"https://flagcdn.com/w160/nl.png", awayTeam:"日本", awayFlag:"https://flagcdn.com/w160/jp.png", venue:"達拉斯球場", score:"2-2", status:"finished" },
+    { id:32, date:"2026-06-15", time:"00:00", group:"F組", homeTeam:"瑞典", homeFlag:"https://flagcdn.com/w160/se.png", awayTeam:"突尼斯", awayFlag:"https://flagcdn.com/w160/tn.png", venue:"蒙特雷球場", score:"5-1", status:"finished" },
+    { id:33, date:"2026-06-20", time:"22:00", group:"F組", homeTeam:"荷蘭", homeFlag:"https://flagcdn.com/w160/nl.png", awayTeam:"瑞典", awayFlag:"https://flagcdn.com/w160/se.png", venue:"休斯頓球場", score:"5-1", status:"finished" },
+    { id:34, date:"2026-06-21", time:"23:00", group:"F組", homeTeam:"突尼斯", homeFlag:"https://flagcdn.com/w160/tn.png", awayTeam:"日本", awayFlag:"https://flagcdn.com/w160/jp.png", venue:"蒙特雷球場", score:"0-4", status:"finished" },
+    { id:35, date:"2026-06-25", time:"22:00", group:"F組", homeTeam:"日本", homeFlag:"https://flagcdn.com/w160/jp.png", awayTeam:"瑞典", awayFlag:"https://flagcdn.com/w160/se.png", venue:"達拉斯球場", score:null, status:"upcoming" },
+    { id:36, date:"2026-06-25", time:"22:00", group:"F組", homeTeam:"突尼斯", homeFlag:"https://flagcdn.com/w160/tn.png", awayTeam:"荷蘭", awayFlag:"https://flagcdn.com/w160/nl.png", venue:"堪薩斯城球場", score:null, status:"upcoming" },
     // GROUP G
-    { id:37, date:"2026-06-15", time:"22:00", group:"G組", homeTeam:"比利時", homeFlag:"🇧🇪", awayTeam:"埃及", awayFlag:"🇪🇬", venue:"西雅圖球場", score:"1-1", status:"finished" },
-    { id:38, date:"2026-06-16", time:"02:00", group:"G組", homeTeam:"伊朗", homeFlag:"🇮🇷", awayTeam:"新西蘭", awayFlag:"🇳🇿", venue:"洛杉磯球場", score:"2-2", status:"finished" },
-    { id:39, date:"2026-06-21", time:"22:00", group:"G組", homeTeam:"比利時", homeFlag:"🇧🇪", awayTeam:"伊朗", awayFlag:"🇮🇷", venue:"洛杉磯球場", score:"0-0", status:"finished" },
-    { id:40, date:"2026-06-22", time:"02:00", group:"G組", homeTeam:"新西蘭", homeFlag:"🇳🇿", awayTeam:"埃及", awayFlag:"🇪🇬", venue:"溫哥華BC球場", score:"1-3", status:"finished" },
-    { id:41, date:"2026-06-26", time:"22:00", group:"G組", homeTeam:"埃及", homeFlag:"🇪🇬", awayTeam:"伊朗", awayFlag:"🇮🇷", venue:"西雅圖球場", score:null, status:"upcoming" },
-    { id:42, date:"2026-06-26", time:"22:00", group:"G組", homeTeam:"新西蘭", homeFlag:"🇳🇿", awayTeam:"比利時", awayFlag:"🇧🇪", venue:"溫哥華BC球場", score:null, status:"upcoming" },
+    { id:37, date:"2026-06-15", time:"22:00", group:"G組", homeTeam:"比利時", homeFlag:"https://flagcdn.com/w160/be.png", awayTeam:"埃及", awayFlag:"https://flagcdn.com/w160/eg.png", venue:"西雅圖球場", score:"1-1", status:"finished" },
+    { id:38, date:"2026-06-16", time:"02:00", group:"G組", homeTeam:"伊朗", homeFlag:"https://flagcdn.com/w160/ir.png", awayTeam:"新西蘭", awayFlag:"https://flagcdn.com/w160/nz.png", venue:"洛杉磯球場", score:"2-2", status:"finished" },
+    { id:39, date:"2026-06-21", time:"22:00", group:"G組", homeTeam:"比利時", homeFlag:"https://flagcdn.com/w160/be.png", awayTeam:"伊朗", awayFlag:"https://flagcdn.com/w160/ir.png", venue:"洛杉磯球場", score:"0-0", status:"finished" },
+    { id:40, date:"2026-06-22", time:"02:00", group:"G組", homeTeam:"新西蘭", homeFlag:"https://flagcdn.com/w160/nz.png", awayTeam:"埃及", awayFlag:"https://flagcdn.com/w160/eg.png", venue:"溫哥華BC球場", score:"1-3", status:"finished" },
+    { id:41, date:"2026-06-26", time:"22:00", group:"G組", homeTeam:"埃及", homeFlag:"https://flagcdn.com/w160/eg.png", awayTeam:"伊朗", awayFlag:"https://flagcdn.com/w160/ir.png", venue:"西雅圖球場", score:null, status:"upcoming" },
+    { id:42, date:"2026-06-26", time:"22:00", group:"G組", homeTeam:"新西蘭", homeFlag:"https://flagcdn.com/w160/nz.png", awayTeam:"比利時", awayFlag:"https://flagcdn.com/w160/be.png", venue:"溫哥華BC球場", score:null, status:"upcoming" },
     // GROUP H
-    { id:43, date:"2026-06-15", time:"22:00", group:"H組", homeTeam:"西班牙", homeFlag:"🇪🇸", awayTeam:"佛得角", awayFlag:"🇨🇻", venue:"亞特蘭大球場", score:"0-0", status:"finished" },
-    { id:44, date:"2026-06-15", time:"22:00", group:"H組", homeTeam:"沙特阿拉伯", homeFlag:"🇸🇦", awayTeam:"烏拉圭", awayFlag:"🇺🇾", venue:"邁阿密球場", score:"1-1", status:"finished" },
-    { id:45, date:"2026-06-21", time:"22:00", group:"H組", homeTeam:"西班牙", homeFlag:"🇪🇸", awayTeam:"沙特阿拉伯", awayFlag:"🇸🇦", venue:"亞特蘭大球場", score:"4-0", status:"finished" },
-    { id:46, date:"2026-06-21", time:"22:00", group:"H組", homeTeam:"烏拉圭", homeFlag:"🇺🇾", awayTeam:"佛得角", awayFlag:"🇨🇻", venue:"邁阿密球場", score:"2-2", status:"finished" },
-    { id:47, date:"2026-06-26", time:"22:00", group:"H組", homeTeam:"佛得角", homeFlag:"🇨🇻", awayTeam:"沙特阿拉伯", awayFlag:"🇸🇦", venue:"休斯頓球場", score:null, status:"upcoming" },
-    { id:48, date:"2026-06-26", time:"22:00", group:"H組", homeTeam:"烏拉圭", homeFlag:"🇺🇾", awayTeam:"西班牙", awayFlag:"🇪🇸", venue:"瓜達拉哈拉球場", score:null, status:"upcoming" },
+    { id:43, date:"2026-06-15", time:"22:00", group:"H組", homeTeam:"西班牙", homeFlag:"https://flagcdn.com/w160/es.png", awayTeam:"佛得角", awayFlag:"https://flagcdn.com/w160/cv.png", venue:"亞特蘭大球場", score:"0-0", status:"finished" },
+    { id:44, date:"2026-06-15", time:"22:00", group:"H組", homeTeam:"沙特阿拉伯", homeFlag:"https://flagcdn.com/w160/sa.png", awayTeam:"烏拉圭", awayFlag:"https://flagcdn.com/w160/uy.png", venue:"邁阿密球場", score:"1-1", status:"finished" },
+    { id:45, date:"2026-06-21", time:"22:00", group:"H組", homeTeam:"西班牙", homeFlag:"https://flagcdn.com/w160/es.png", awayTeam:"沙特阿拉伯", awayFlag:"https://flagcdn.com/w160/sa.png", venue:"亞特蘭大球場", score:"4-0", status:"finished" },
+    { id:46, date:"2026-06-21", time:"22:00", group:"H組", homeTeam:"烏拉圭", homeFlag:"https://flagcdn.com/w160/uy.png", awayTeam:"佛得角", awayFlag:"https://flagcdn.com/w160/cv.png", venue:"邁阿密球場", score:"2-2", status:"finished" },
+    { id:47, date:"2026-06-26", time:"22:00", group:"H組", homeTeam:"佛得角", homeFlag:"https://flagcdn.com/w160/cv.png", awayTeam:"沙特阿拉伯", awayFlag:"https://flagcdn.com/w160/sa.png", venue:"休斯頓球場", score:null, status:"upcoming" },
+    { id:48, date:"2026-06-26", time:"22:00", group:"H組", homeTeam:"烏拉圭", homeFlag:"https://flagcdn.com/w160/uy.png", awayTeam:"西班牙", awayFlag:"https://flagcdn.com/w160/es.png", venue:"瓜達拉哈拉球場", score:null, status:"upcoming" },
     // GROUP I
-    { id:49, date:"2026-06-16", time:"22:00", group:"I組", homeTeam:"法國", homeFlag:"🇫🇷", awayTeam:"塞內加爾", awayFlag:"🇸🇳", venue:"紐約/新澤西球場", score:"3-1", status:"finished" },
-    { id:50, date:"2026-06-16", time:"22:00", group:"I組", homeTeam:"伊拉克", homeFlag:"🇮🇶", awayTeam:"挪威", awayFlag:"🇳🇴", venue:"波士頓球場", score:"1-4", status:"finished" },
-    { id:51, date:"2026-06-22", time:"22:00", group:"I組", homeTeam:"挪威", homeFlag:"🇳🇴", awayTeam:"塞內加爾", awayFlag:"🇸🇳", venue:"紐約/新澤西球場", score:"3-2", status:"finished" },
-    { id:52, date:"2026-06-22", time:"22:00", group:"I組", homeTeam:"法國", homeFlag:"🇫🇷", awayTeam:"伊拉克", awayFlag:"🇮🇶", venue:"費城球場", score:"3-0", status:"finished" },
-    { id:53, date:"2026-06-26", time:"22:00", group:"I組", homeTeam:"挪威", homeFlag:"🇳🇴", awayTeam:"法國", awayFlag:"🇫🇷", venue:"波士頓球場", score:null, status:"upcoming" },
-    { id:54, date:"2026-06-26", time:"22:00", group:"I組", homeTeam:"塞內加爾", homeFlag:"🇸🇳", awayTeam:"伊拉克", awayFlag:"🇮🇶", venue:"多倫多球場", score:null, status:"upcoming" },
+    { id:49, date:"2026-06-16", time:"22:00", group:"I組", homeTeam:"法國", homeFlag:"https://flagcdn.com/w160/fr.png", awayTeam:"塞內加爾", awayFlag:"https://flagcdn.com/w160/sn.png", venue:"紐約/新澤西球場", score:"3-1", status:"finished" },
+    { id:50, date:"2026-06-16", time:"22:00", group:"I組", homeTeam:"伊拉克", homeFlag:"https://flagcdn.com/w160/iq.png", awayTeam:"挪威", awayFlag:"https://flagcdn.com/w160/no.png", venue:"波士頓球場", score:"1-4", status:"finished" },
+    { id:51, date:"2026-06-22", time:"22:00", group:"I組", homeTeam:"挪威", homeFlag:"https://flagcdn.com/w160/no.png", awayTeam:"塞內加爾", awayFlag:"https://flagcdn.com/w160/sn.png", venue:"紐約/新澤西球場", score:"3-2", status:"finished" },
+    { id:52, date:"2026-06-22", time:"22:00", group:"I組", homeTeam:"法國", homeFlag:"https://flagcdn.com/w160/fr.png", awayTeam:"伊拉克", awayFlag:"https://flagcdn.com/w160/iq.png", venue:"費城球場", score:"3-0", status:"finished" },
+    { id:53, date:"2026-06-26", time:"22:00", group:"I組", homeTeam:"挪威", homeFlag:"https://flagcdn.com/w160/no.png", awayTeam:"法國", awayFlag:"https://flagcdn.com/w160/fr.png", venue:"波士頓球場", score:null, status:"upcoming" },
+    { id:54, date:"2026-06-26", time:"22:00", group:"I組", homeTeam:"塞內加爾", homeFlag:"https://flagcdn.com/w160/sn.png", awayTeam:"伊拉克", awayFlag:"https://flagcdn.com/w160/iq.png", venue:"多倫多球場", score:null, status:"upcoming" },
     // GROUP J
-    { id:55, date:"2026-06-17", time:"02:00", group:"J組", homeTeam:"阿根廷", homeFlag:"🇦🇷", awayTeam:"阿爾及利亞", awayFlag:"🇩🇿", venue:"堪薩斯城球場", score:"3-0", status:"finished" },
-    { id:56, date:"2026-06-17", time:"02:00", group:"J組", homeTeam:"奧地利", homeFlag:"🇦🇹", awayTeam:"約旦", awayFlag:"🇯🇴", venue:"舊金山灣區球場", score:"3-1", status:"finished" },
-    { id:57, date:"2026-06-22", time:"22:00", group:"J組", homeTeam:"阿根廷", homeFlag:"🇦🇷", awayTeam:"奧地利", awayFlag:"🇦🇹", venue:"達拉斯球場", score:"2-0", status:"finished" },
-    { id:58, date:"2026-06-23", time:"02:00", group:"J組", homeTeam:"約旦", homeFlag:"🇯🇴", awayTeam:"阿爾及利亞", awayFlag:"🇩🇿", venue:"舊金山灣區球場", score:"1-2", status:"finished" },
-    { id:59, date:"2026-06-27", time:"02:00", group:"J組", homeTeam:"阿爾及利亞", homeFlag:"🇩🇿", awayTeam:"奧地利", awayFlag:"🇦🇹", venue:"堪薩斯城球場", score:null, status:"upcoming" },
-    { id:60, date:"2026-06-27", time:"02:00", group:"J組", homeTeam:"約旦", homeFlag:"🇯🇴", awayTeam:"阿根廷", awayFlag:"🇦🇷", venue:"達拉斯球場", score:null, status:"upcoming" },
+    { id:55, date:"2026-06-17", time:"02:00", group:"J組", homeTeam:"阿根廷", homeFlag:"https://flagcdn.com/w160/ar.png", awayTeam:"阿爾及利亞", awayFlag:"https://flagcdn.com/w160/dz.png", venue:"堪薩斯城球場", score:"3-0", status:"finished" },
+    { id:56, date:"2026-06-17", time:"02:00", group:"J組", homeTeam:"奧地利", homeFlag:"https://flagcdn.com/w160/at.png", awayTeam:"約旦", awayFlag:"https://flagcdn.com/w160/jo.png", venue:"舊金山灣區球場", score:"3-1", status:"finished" },
+    { id:57, date:"2026-06-22", time:"22:00", group:"J組", homeTeam:"阿根廷", homeFlag:"https://flagcdn.com/w160/ar.png", awayTeam:"奧地利", awayFlag:"https://flagcdn.com/w160/at.png", venue:"達拉斯球場", score:"2-0", status:"finished" },
+    { id:58, date:"2026-06-23", time:"02:00", group:"J組", homeTeam:"約旦", homeFlag:"https://flagcdn.com/w160/jo.png", awayTeam:"阿爾及利亞", awayFlag:"https://flagcdn.com/w160/dz.png", venue:"舊金山灣區球場", score:"1-2", status:"finished" },
+    { id:59, date:"2026-06-27", time:"02:00", group:"J組", homeTeam:"阿爾及利亞", homeFlag:"https://flagcdn.com/w160/dz.png", awayTeam:"奧地利", awayFlag:"https://flagcdn.com/w160/at.png", venue:"堪薩斯城球場", score:null, status:"upcoming" },
+    { id:60, date:"2026-06-27", time:"02:00", group:"J組", homeTeam:"約旦", homeFlag:"https://flagcdn.com/w160/jo.png", awayTeam:"阿根廷", awayFlag:"https://flagcdn.com/w160/ar.png", venue:"達拉斯球場", score:null, status:"upcoming" },
     // GROUP K
-    { id:61, date:"2026-06-17", time:"22:00", group:"K組", homeTeam:"葡萄牙", homeFlag:"🇵🇹", awayTeam:"剛果民主", awayFlag:"🇨🇩", venue:"休斯頓球場", score:"1-1", status:"finished" },
-    { id:62, date:"2026-06-18", time:"02:00", group:"K組", homeTeam:"烏茲別克", homeFlag:"🇺🇿", awayTeam:"哥倫比亞", awayFlag:"🇨🇴", venue:"墨西哥城球場", score:"1-3", status:"finished" },
-    { id:63, date:"2026-06-23", time:"22:00", group:"K組", homeTeam:"葡萄牙", homeFlag:"🇵🇹", awayTeam:"烏茲別克", awayFlag:"🇺🇿", venue:"休斯頓球場", score:"5-0", status:"finished" },
-    { id:64, date:"2026-06-24", time:"22:00", group:"K組", homeTeam:"哥倫比亞", homeFlag:"🇨🇴", awayTeam:"剛果民主", awayFlag:"🇨🇩", venue:"瓜達拉哈拉球場", score:"1-0", status:"finished" },
-    { id:65, date:"2026-06-27", time:"22:00", group:"K組", homeTeam:"哥倫比亞", homeFlag:"🇨🇴", awayTeam:"葡萄牙", awayFlag:"🇵🇹", venue:"邁阿密球場", score:null, status:"upcoming" },
-    { id:66, date:"2026-06-27", time:"22:00", group:"K組", homeTeam:"剛果民主", homeFlag:"🇨🇩", awayTeam:"烏茲別克", awayFlag:"🇺🇿", venue:"亞特蘭大球場", score:null, status:"upcoming" },
+    { id:61, date:"2026-06-17", time:"22:00", group:"K組", homeTeam:"葡萄牙", homeFlag:"https://flagcdn.com/w160/pt.png", awayTeam:"剛果民主", awayFlag:"https://flagcdn.com/w160/cd.png", venue:"休斯頓球場", score:"1-1", status:"finished" },
+    { id:62, date:"2026-06-18", time:"02:00", group:"K組", homeTeam:"烏茲別克", homeFlag:"https://flagcdn.com/w160/uz.png", awayTeam:"哥倫比亞", awayFlag:"https://flagcdn.com/w160/co.png", venue:"墨西哥城球場", score:"1-3", status:"finished" },
+    { id:63, date:"2026-06-23", time:"22:00", group:"K組", homeTeam:"葡萄牙", homeFlag:"https://flagcdn.com/w160/pt.png", awayTeam:"烏茲別克", awayFlag:"https://flagcdn.com/w160/uz.png", venue:"休斯頓球場", score:"5-0", status:"finished" },
+    { id:64, date:"2026-06-24", time:"22:00", group:"K組", homeTeam:"哥倫比亞", homeFlag:"https://flagcdn.com/w160/co.png", awayTeam:"剛果民主", awayFlag:"https://flagcdn.com/w160/cd.png", venue:"瓜達拉哈拉球場", score:"1-0", status:"finished" },
+    { id:65, date:"2026-06-27", time:"22:00", group:"K組", homeTeam:"哥倫比亞", homeFlag:"https://flagcdn.com/w160/co.png", awayTeam:"葡萄牙", awayFlag:"https://flagcdn.com/w160/pt.png", venue:"邁阿密球場", score:null, status:"upcoming" },
+    { id:66, date:"2026-06-27", time:"22:00", group:"K組", homeTeam:"剛果民主", homeFlag:"https://flagcdn.com/w160/cd.png", awayTeam:"烏茲別克", awayFlag:"https://flagcdn.com/w160/uz.png", venue:"亞特蘭大球場", score:null, status:"upcoming" },
     // GROUP L
-    { id:67, date:"2026-06-17", time:"22:00", group:"L組", homeTeam:"英格蘭", homeFlag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", awayTeam:"克羅地亞", awayFlag:"🇭🇷", venue:"達拉斯球場", score:"4-2", status:"finished" },
-    { id:68, date:"2026-06-17", time:"22:00", group:"L組", homeTeam:"加納", homeFlag:"🇬🇭", awayTeam:"巴拿馬", awayFlag:"🇵🇦", venue:"多倫多球場", score:"1-0", status:"finished" },
-    { id:69, date:"2026-06-23", time:"23:00", group:"L組", homeTeam:"英格蘭", homeFlag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", awayTeam:"加納", awayFlag:"🇬🇭", venue:"波士頓球場", score:"0-0", status:"finished" },
-    { id:70, date:"2026-06-23", time:"23:00", group:"L組", homeTeam:"巴拿馬", homeFlag:"🇵🇦", awayTeam:"克羅地亞", awayFlag:"🇭🇷", venue:"多倫多球場", score:"0-1", status:"finished" },
-    { id:71, date:"2026-06-27", time:"22:00", group:"L組", homeTeam:"巴拿馬", homeFlag:"🇵🇦", awayTeam:"英格蘭", awayFlag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", venue:"紐約/新澤西球場", score:null, status:"upcoming" },
-    { id:72, date:"2026-06-27", time:"22:00", group:"L組", homeTeam:"克羅地亞", homeFlag:"🇭🇷", awayTeam:"加納", awayFlag:"🇬🇭", venue:"費城球場", score:null, status:"upcoming" },
+    { id:67, date:"2026-06-17", time:"22:00", group:"L組", homeTeam:"英格蘭", homeFlag:"https://flagcdn.com/w160/gb-eng.png", awayTeam:"克羅地亞", awayFlag:"https://flagcdn.com/w160/hr.png", venue:"達拉斯球場", score:"4-2", status:"finished" },
+    { id:68, date:"2026-06-17", time:"22:00", group:"L組", homeTeam:"加納", homeFlag:"https://flagcdn.com/w160/gh.png", awayTeam:"巴拿馬", awayFlag:"https://flagcdn.com/w160/pa.png", venue:"多倫多球場", score:"1-0", status:"finished" },
+    { id:69, date:"2026-06-23", time:"23:00", group:"L組", homeTeam:"英格蘭", homeFlag:"https://flagcdn.com/w160/gb-eng.png", awayTeam:"加納", awayFlag:"https://flagcdn.com/w160/gh.png", venue:"波士頓球場", score:"0-0", status:"finished" },
+    { id:70, date:"2026-06-23", time:"23:00", group:"L組", homeTeam:"巴拿馬", homeFlag:"https://flagcdn.com/w160/pa.png", awayTeam:"克羅地亞", awayFlag:"https://flagcdn.com/w160/hr.png", venue:"多倫多球場", score:"0-1", status:"finished" },
+    { id:71, date:"2026-06-27", time:"22:00", group:"L組", homeTeam:"巴拿馬", homeFlag:"https://flagcdn.com/w160/pa.png", awayTeam:"英格蘭", awayFlag:"https://flagcdn.com/w160/gb-eng.png", venue:"紐約/新澤西球場", score:null, status:"upcoming" },
+    { id:72, date:"2026-06-27", time:"22:00", group:"L組", homeTeam:"克羅地亞", homeFlag:"https://flagcdn.com/w160/hr.png", awayTeam:"加納", awayFlag:"https://flagcdn.com/w160/gh.png", venue:"費城球場", score:null, status:"upcoming" },
     // KNOCKOUT ROUNDS
-    { id:73, date:"2026-06-28", time:"22:00", group:"32強", homeTeam:"A組亞軍", homeFlag:"⚽", awayTeam:"B組亞軍", awayFlag:"⚽", venue:"洛杉磯球場", score:null, status:"upcoming" },
-    { id:74, date:"2026-06-29", time:"22:00", group:"32強", homeTeam:"E組冠軍", homeFlag:"⚽", awayTeam:"第三名", awayFlag:"⚽", venue:"波士頓球場", score:null, status:"upcoming" },
-    { id:75, date:"2026-06-29", time:"22:00", group:"32強", homeTeam:"F組冠軍", homeFlag:"⚽", awayTeam:"C組亞軍", awayFlag:"⚽", venue:"蒙特雷球場", score:null, status:"upcoming" },
-    { id:76, date:"2026-06-29", time:"22:00", group:"32強", homeTeam:"C組冠軍", homeFlag:"⚽", awayTeam:"F組亞軍", awayFlag:"⚽", venue:"休斯頓球場", score:null, status:"upcoming" }
+    { id:73, date:"2026-06-28", time:"22:00", group:"32強", homeTeam:"A組亞軍", homeFlag:"", awayTeam:"B組亞軍", awayFlag:"", venue:"洛杉磯球場", score:null, status:"upcoming" },
+    { id:74, date:"2026-06-29", time:"22:00", group:"32強", homeTeam:"E組冠軍", homeFlag:"", awayTeam:"第三名", awayFlag:"", venue:"波士頓球場", score:null, status:"upcoming" },
+    { id:75, date:"2026-06-29", time:"22:00", group:"32強", homeTeam:"F組冠軍", homeFlag:"", awayTeam:"C組亞軍", awayFlag:"", venue:"蒙特雷球場", score:null, status:"upcoming" },
+    { id:76, date:"2026-06-29", time:"22:00", group:"32強", homeTeam:"C組冠軍", homeFlag:"", awayTeam:"F組亞軍", awayFlag:"", venue:"休斯頓球場", score:null, status:"upcoming" }
   ],
 
   scorers: [
-    { name:"梅西", flag:"🇦🇷", team:"阿根廷", goals:5, eng:"Lionel Messi" },
-    { name:"哈蘭德", flag:"🇳🇴", team:"挪威", goals:4, eng:"Erling Haaland" },
-    { name:"姆巴佩", flag:"🇫🇷", team:"法國", goals:4, eng:"Kylian Mbappé" },
-    { name:"Undav", flag:"🇩🇪", team:"德國", goals:3, eng:"Deniz Undav" },
-    { name:"大衛", flag:"🇨🇦", team:"加拿大", goals:3, eng:"Jonathan David" },
-    { name:"上田綺世", flag:"🇯🇵", team:"日本", goals:2, eng:"Ayase Ueda" },
-    { name:"布羅比", flag:"🇳🇱", team:"荷蘭", goals:2, eng:"Brian Brobbey" },
-    { name:"加科波", flag:"🇳🇱", team:"荷蘭", goals:2, eng:"Cody Gakpo" },
-    { name:"C朗拿度", flag:"🇵🇹", team:"葡萄牙", goals:2, eng:"Cristiano Ronaldo" },
-    { name:"凱恩", flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", team:"英格蘭", goals:2, eng:"Harry Kane" }
+    { name:"梅西", flag:"https://flagcdn.com/w160/ar.png", team:"阿根廷", goals:5, eng:"Lionel Messi" },
+    { name:"哈蘭德", flag:"https://flagcdn.com/w160/no.png", team:"挪威", goals:4, eng:"Erling Haaland" },
+    { name:"姆巴佩", flag:"https://flagcdn.com/w160/fr.png", team:"法國", goals:4, eng:"Kylian Mbappé" },
+    { name:"Undav", flag:"https://flagcdn.com/w160/de.png", team:"德國", goals:3, eng:"Deniz Undav" },
+    { name:"大衛", flag:"https://flagcdn.com/w160/ca.png", team:"加拿大", goals:3, eng:"Jonathan David" },
+    { name:"上田綺世", flag:"https://flagcdn.com/w160/jp.png", team:"日本", goals:2, eng:"Ayase Ueda" },
+    { name:"布羅比", flag:"https://flagcdn.com/w160/nl.png", team:"荷蘭", goals:2, eng:"Brian Brobbey" },
+    { name:"加科波", flag:"https://flagcdn.com/w160/nl.png", team:"荷蘭", goals:2, eng:"Cody Gakpo" },
+    { name:"C朗拿度", flag:"https://flagcdn.com/w160/pt.png", team:"葡萄牙", goals:2, eng:"Cristiano Ronaldo" },
+    { name:"凱恩", flag:"https://flagcdn.com/w160/gb-eng.png", team:"英格蘭", goals:2, eng:"Harry Kane" }
   ],
 
   odds: [
-    { team:"阿根廷", flag:"🇦🇷", pct:22, odds:"4.50" },
-    { team:"法國", flag:"🇫🇷", pct:18, odds:"5.50" },
-    { team:"德國", flag:"🇩🇪", pct:14, odds:"7.00" },
-    { team:"英格蘭", flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", pct:10, odds:"10.00" },
-    { team:"西班牙", flag:"🇪🇸", pct:9, odds:"11.00" },
-    { team:"巴西", flag:"🇧🇷", pct:8, odds:"12.50" },
-    { team:"挪威", flag:"🇳🇴", pct:7, odds:"14.00" },
-    { team:"葡萄牙", flag:"🇵🇹", pct:5, odds:"20.00" },
-    { team:"荷蘭", flag:"🇳🇱", pct:4, odds:"25.00" },
-    { team:"哥倫比亞", flag:"🇨🇴", pct:3, odds:"33.00" }
+    { team:"阿根廷", flag:"https://flagcdn.com/w160/ar.png", pct:22, odds:"4.50" },
+    { team:"法國", flag:"https://flagcdn.com/w160/fr.png", pct:18, odds:"5.50" },
+    { team:"德國", flag:"https://flagcdn.com/w160/de.png", pct:14, odds:"7.00" },
+    { team:"英格蘭", flag:"https://flagcdn.com/w160/gb-eng.png", pct:10, odds:"10.00" },
+    { team:"西班牙", flag:"https://flagcdn.com/w160/es.png", pct:9, odds:"11.00" },
+    { team:"巴西", flag:"https://flagcdn.com/w160/br.png", pct:8, odds:"12.50" },
+    { team:"挪威", flag:"https://flagcdn.com/w160/no.png", pct:7, odds:"14.00" },
+    { team:"葡萄牙", flag:"https://flagcdn.com/w160/pt.png", pct:5, odds:"20.00" },
+    { team:"荷蘭", flag:"https://flagcdn.com/w160/nl.png", pct:4, odds:"25.00" },
+    { team:"哥倫比亞", flag:"https://flagcdn.com/w160/co.png", pct:3, odds:"33.00" }
   ],
 
   // Vote data (in-memory)
@@ -2053,7 +2073,7 @@ function renderMatchCard(m) {
 
   return `<div class="match-card">
     <div class="team-side">
-      <span class="team-flag">${m.homeFlag}</span>
+      <span class="team-flag"><img class="flag-img" src="${m.homeFlag}" alt=""></span>
       <span class="team-name">${m.homeTeam}</span>
     </div>
     <div class="match-center">
@@ -2061,7 +2081,7 @@ function renderMatchCard(m) {
       <div class="match-venue">${m.venue}</div>
     </div>
     <div class="team-side right">
-      <span class="team-flag">${m.awayFlag}</span>
+      <span class="team-flag"><img class="flag-img" src="${m.awayFlag}" alt=""></span>
       <span class="team-name">${m.awayTeam}</span>
     </div>
     <div class="match-card-footer">
@@ -2184,7 +2204,7 @@ function renderStats() {
     return acc + parseInt(parts[0]) + parseInt(parts[1]);
   }, 0);
   const topScorer = DATA.scorers[0];
-  const mostYellow = { team: "德國 🇩🇪", count: 8 };
+  const mostYellow = { team: "德國 <img class="flag-img" src="https://flagcdn.com/w160/de.png" alt="">", count: 8 };
   const playedMatches = DATA.matches.filter(m => m.score).length;
   const avgGoals = playedMatches > 0 ? (totalGoals / playedMatches).toFixed(1) : '0.0';
 
@@ -2196,7 +2216,7 @@ function renderStats() {
     </div>
     <div class="kpi-card" style="--kpi-color:var(--orange)">
       <div class="kpi-label">🥅 射手王</div>
-      <div class="kpi-value" style="font-size:1.4rem;">${topScorer.flag} ${topScorer.name}</div>
+      <div class="kpi-value" style="font-size:1.4rem;"><img class="flag-img" src="${topScorer.flag}" alt=""> ${topScorer.name}</div>
       <div class="kpi-sub">${topScorer.goals} 球 · ${topScorer.team}</div>
     </div>
     <div class="kpi-card" style="--kpi-color:var(--red)">
@@ -2225,7 +2245,7 @@ function renderStats() {
   oddsChartInst = new Chart(oddsCtx, {
     type: 'bar',
     data: {
-      labels: DATA.odds.map(o => o.flag + ' ' + o.team),
+      labels: DATA.odds.map(o => o.team),
       datasets: [{
         label: '奪冠概率 (%)',
         data: DATA.odds.map(o => o.pct),
@@ -2307,7 +2327,7 @@ function renderStats() {
   document.getElementById('scorersList').innerHTML = DATA.scorers.map((s, i) => `
     <div class="scorer-row">
       <div class="scorer-rank ${i < 3 ? 'top' : ''}">${i + 1}</div>
-      <div class="scorer-flag">${s.flag}</div>
+      <div class="scorer-flag"><img class="flag-img" src="${s.flag}" alt=""></div>
       <div class="scorer-info">
         <div class="scorer-name">${s.name}</div>
         <div class="scorer-team">${s.team}</div>
@@ -2343,7 +2363,7 @@ function renderStandingsTable(col, dir) {
 
   document.getElementById('standingsBody').innerHTML = allTeams.map((t, i) => `
     <tr>
-      <td><div class="team-cell"><span>${t.flag}</span><span>${t.name}</span></div></td>
+      <td><div class="team-cell"><span><img class="flag-img" src="${t.flag}" alt=""></span><span>${t.name}</span></div></td>
       <td>${t.p}</td>
       <td>${t.w}</td>
       <td>${t.d}</td>
@@ -2388,10 +2408,10 @@ function renderQualification() {
       <div class="group-card-body">
         ${g.teams.map((t, i) => {
           const st = getTeamStatus(key, i);
-          return `<div class="group-team-row" onclick="showTeamPie('${t.name}','${t.flag}')">
+          return `<div class="group-team-row" onclick="showTeamPie('${t.name.replace(/'/g,"\\'")}','${t.flag}')">
             <span class="group-rank">${i+1}</span>
             <span class="team-status-icon" title="${st.label}">${st.icon}</span>
-            <span class="group-flag">${t.flag}</span>
+            <span class="group-flag"><img class="flag-img" src="${t.flag}" alt=""></span>
             <span class="group-team-name">${t.name}</span>
             <span style="font-size:0.7rem;color:var(--text-muted)">${t.w}${t.d}${t.l} ${t.gf}:${t.ga}</span>
             <span class="group-pts">${t.pts}</span>
@@ -2409,14 +2429,14 @@ function renderBracket() {
     {
       title: '32強',
       matches: [
-        ['墨西哥 🇲🇽', 'TBD'],
-        ['加拿大 🇨🇦', 'TBD'],
-        ['巴西 🇧🇷', 'TBD'],
-        ['美國 🇺🇸', 'TBD'],
-        ['德國 🇩🇪', 'TBD'],
-        ['荷蘭 🇳🇱', 'TBD'],
-        ['埃及 🇪🇬', 'TBD'],
-        ['西班牙 🇪🇸', 'TBD']
+        ['墨西哥 <img class="flag-img" src="https://flagcdn.com/w160/mx.png" alt="">', 'TBD'],
+        ['加拿大 <img class="flag-img" src="https://flagcdn.com/w160/ca.png" alt="">', 'TBD'],
+        ['巴西 <img class="flag-img" src="https://flagcdn.com/w160/br.png" alt="">', 'TBD'],
+        ['美國 <img class="flag-img" src="https://flagcdn.com/w160/us.png" alt="">', 'TBD'],
+        ['德國 <img class="flag-img" src="https://flagcdn.com/w160/de.png" alt="">', 'TBD'],
+        ['荷蘭 <img class="flag-img" src="https://flagcdn.com/w160/nl.png" alt="">', 'TBD'],
+        ['埃及 <img class="flag-img" src="https://flagcdn.com/w160/eg.png" alt="">', 'TBD'],
+        ['西班牙 <img class="flag-img" src="https://flagcdn.com/w160/es.png" alt="">', 'TBD']
       ]
     },
     {
@@ -2468,7 +2488,7 @@ function showTeamPie(name, flag) {
   const odds = DATA.odds.find(o => o.team === name);
   const pct = odds ? odds.pct : Math.floor(Math.random() * 5) + 1;
 
-  document.getElementById('modalTitle').innerHTML = `${flag} ${name} · 奪冠概率`;
+  document.getElementById('modalTitle').innerHTML = `<img class="flag-img" src="${flag}" alt="" style="width:24px;height:16px;"> ${name} · 奪冠概率`;
   const ctx_id = 'teamPieChart';
   document.getElementById('modalBody').innerHTML = `
     <div style="text-align:center;margin-bottom:12px;">
@@ -2542,20 +2562,20 @@ function renderVoteCard(m) {
   return `<div class="vote-card" id="vc-${m.id}">
     <div class="vote-card-header">
       <div>
-        <div class="vote-match-teams">${m.homeFlag} ${m.homeTeam} vs ${m.awayTeam} ${m.awayFlag}</div>
+        <div class="vote-match-teams"><img class="flag-img" src="${m.homeFlag}" alt=""> ${m.homeTeam} vs ${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt=""></div>
         <div class="vote-match-time">${m.date} ${m.time} HKT · ${m.group} · ${m.venue}</div>
       </div>
       <span class="status-badge upcoming">即將開賽</span>
     </div>
     <div class="vote-btns">
       <button class="vote-btn team-a ${voted === 'a' ? 'voted' : ''}" onclick="castVote(${m.id},'a')" ${voted ? 'disabled' : ''}>
-        ${voted === 'a' ? '✓ ' : ''}${m.homeFlag} ${m.homeTeam} 勝
+        ${voted === 'a' ? '✓ ' : ''}<img class="flag-img" src="${m.homeFlag}" alt=""> ${m.homeTeam} 勝
       </button>
       <button class="vote-btn draw ${voted === 'd' ? 'voted' : ''}" onclick="castVote(${m.id},'d')" ${voted ? 'disabled' : ''}>
         ${voted === 'd' ? '✓ ' : ''}平局
       </button>
       <button class="vote-btn team-b ${voted === 'b' ? 'voted' : ''}" onclick="castVote(${m.id},'b')" ${voted ? 'disabled' : ''}>
-        ${voted === 'b' ? '✓ ' : ''}${m.awayTeam} ${m.awayFlag} 勝
+        ${voted === 'b' ? '✓ ' : ''}${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt=""> 勝
       </button>
     </div>
     <div class="vote-results">
@@ -2598,7 +2618,7 @@ function renderPredict() {
   // Populate match select
   const upcoming = DATA.matches.filter(m => m.group.includes('組') && !m.score).slice(0, 12);
   const sel = document.getElementById('matchSelect');
-  sel.innerHTML = upcoming.map(m => `<option value="${m.id}">${m.homeFlag} ${m.homeTeam} vs ${m.awayTeam} ${m.awayFlag} (${m.date} ${m.time})</option>`).join('');
+  sel.innerHTML = upcoming.map(m => `<option value="${m.id}"><img class="flag-img" src="${m.homeFlag}" alt=""> ${m.homeTeam} vs ${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt=""> (${m.date} ${m.time})</option>`).join('');
   updateScoreLabels();
   sel.addEventListener('change', updateScoreLabels);
 
@@ -2670,7 +2690,7 @@ function renderLeaderboard() {
     const sc = calcUserScore(u);
     const last = u.preds.length ? u.preds[u.preds.length - 1] : null;
     const lastMatch = last ? DATA.matches.find(m => m.id === last.matchId) : null;
-    const lastStr = lastMatch ? `${lastMatch.homeFlag} ${lastMatch.homeTeam} ${last.a}-${last.b} ${lastMatch.awayTeam} ${lastMatch.awayFlag}` : '-';
+    const lastStr = lastMatch ? `<img class="flag-img" src="${lastMatch.homeFlag}" alt=""> ${lastMatch.homeTeam} ${last.a}-${last.b} ${lastMatch.awayTeam} <img class="flag-img" src="${lastMatch.awayFlag}" alt="">` : '-';
     return { ...u, ...sc, lastStr };
   }).sort((a, b) => b.total - a.total || b.correct - a.correct);
 
@@ -2702,7 +2722,7 @@ function showHistory(nick) {
           resultText = p.pts > 0 ? (p.star ? '🌟 完全命中' : '✓ 猜中') : '✗ 未中';
         }
         return `<div class="history-row">
-          <div class="history-match">${m.homeFlag} ${m.homeTeam} vs ${m.awayTeam} ${m.awayFlag}</div>
+          <div class="history-match"><img class="flag-img" src="${m.homeFlag}" alt=""> ${m.homeTeam} vs ${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt=""></div>
           <div class="history-pred">${p.a} - ${p.b}</div>
           <div class="history-result ${resultClass}">${resultText}</div>
           <div class="history-pts">${isPending ? '-' : '+'+p.pts}</div>
