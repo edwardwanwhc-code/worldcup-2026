@@ -1021,31 +1021,61 @@ body {
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(255,215,0,0.08);
 }
-.score-input-row {
+.guess-teams-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
 }
-.score-input {
-  width: 70px;
-  padding: 10px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
+.guess-team-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.guess-vs-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+.guess-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.guess-btn {
+  padding: 12px 8px;
+  border: 2px solid var(--border);
   border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
   color: var(--text-primary);
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.5rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  text-align: center;
-  outline: none;
+  cursor: pointer;
   transition: var(--transition);
+  text-align: center;
 }
-.score-input:focus { border-color: var(--gold); }
-.score-dash {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-muted);
+.guess-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.guess-btn.selected, .guess-btn:active {
+  transform: scale(0.96);
+}
+.guess-h:hover, .guess-h.selected { border-color: var(--blue); background: rgba(59,130,246,0.12); color: var(--blue); }
+.guess-d:hover, .guess-d.selected { border-color: var(--text-muted); background: rgba(148,163,184,0.12); }
+.guess-a:hover, .guess-a.selected { border-color: var(--red); background: rgba(239,68,68,0.12); color: var(--red); }
+.guess-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
 }
 .submit-btn {
   width: 100%;
@@ -1403,7 +1433,8 @@ body {
   .kpi-value { font-size: 1.6rem; }
   .groups-grid { grid-template-columns: 1fr 1fr; }
   .vote-btns { grid-template-columns: 1fr; }
-  .score-input-row { justify-content: center; }
+  .guess-btn-row { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .guess-btn { font-size: 0.82rem; padding: 10px 4px; }
 }
 
 /* Empty/placeholder flags */
@@ -1611,13 +1642,16 @@ body {
           <select class="form-select" id="matchSelect"></select>
         </div>
         <div class="form-group">
-          <label class="form-label">預測比分</label>
-          <div class="score-input-row">
-            <span id="scoreTeamA" style="font-size:0.75rem;color:var(--text-muted);text-align:center;flex:1"></span>
-            <input class="score-input" id="scoreA" type="number" min="0" max="20" value="1">
-            <span class="score-dash">-</span>
-            <input class="score-input" id="scoreB" type="number" min="0" max="20" value="0">
-            <span id="scoreTeamB" style="font-size:0.75rem;color:var(--text-muted);text-align:center;flex:1"></span>
+          <label class="form-label">預測賽果</label>
+          <div class="guess-teams-row">
+            <span id="scoreTeamA" class="guess-team-label"></span>
+            <span class="guess-vs-text">vs</span>
+            <span id="scoreTeamB" class="guess-team-label"></span>
+          </div>
+          <div class="guess-btn-row">
+            <button class="guess-btn guess-h" id="guessH" onclick="submitPrediction('H')">🏠 主隊勝</button>
+            <button class="guess-btn guess-d" id="guessD" onclick="submitPrediction('D')">🤝 和</button>
+            <button class="guess-btn guess-a" id="guessA" onclick="submitPrediction('A')">✈️ 客隊勝</button>
           </div>
         </div>
         <button class="submit-btn" onclick="submitPrediction()">🎯 提交估分</button>
@@ -1898,44 +1932,7 @@ const DATA = {
   },
 
   // Predictions leaderboard (demo + live)
-  predictions: [
-    { nick:"足球王子", preds:[
-      { matchId:1, a:2, b:0, pts:4, star:true },
-      { matchId:7, a:2, b:0, pts:0, star:false },
-      { matchId:13, a:2, b:1, pts:1, star:false },
-      { matchId:25, a:6, b:1, pts:4, star:true }
-    ]},
-    { nick:"梅西GOAT", preds:[
-      { matchId:1, a:1, b:0, pts:1, star:false },
-      { matchId:49, a:3, b:1, pts:4, star:true },
-      { matchId:55, a:3, b:0, pts:4, star:true },
-      { matchId:57, a:2, b:0, pts:4, star:true }
-    ]},
-    { nick:"歐洲之星", preds:[
-      { matchId:2, a:2, b:1, pts:4, star:true },
-      { matchId:25, a:5, b:0, pts:1, star:false },
-      { matchId:31, a:3, b:2, pts:1, star:false },
-      { matchId:67, a:4, b:2, pts:4, star:true }
-    ]},
-    { nick:"數據達人", preds:[
-      { matchId:4, a:1, b:0, pts:4, star:true },
-      { matchId:10, a:5, b:0, pts:1, star:false },
-      { matchId:19, a:4, b:1, pts:4, star:true },
-      { matchId:45, a:3, b:0, pts:1, star:false }
-    ]},
-    { nick:"香港仔", preds:[
-      { matchId:3, a:1, b:1, pts:4, star:true },
-      { matchId:8, a:1, b:1, pts:4, star:true },
-      { matchId:50, a:1, b:4, pts:4, star:true },
-      { matchId:37, a:1, b:1, pts:4, star:true }
-    ]},
-    { nick:"阿福", preds:[
-      { matchId:13, a:1, b:1, pts:4, star:true },
-      { matchId:15, a:3, b:0, pts:4, star:true },
-      { matchId:21, a:2, b:0, pts:4, star:true },
-      { matchId:27, a:2, b:1, pts:4, star:true }
-    ]}
-  ]
+  predictions: []
 };
 
 // ====================================================
@@ -2615,31 +2612,29 @@ function castVote(matchId, choice) {
 // PREDICT PAGE
 // ====================================================
 function renderPredict() {
-  // Populate match select
   const upcoming = DATA.matches.filter(m => m.group.includes('組') && !m.score).slice(0, 12);
   const sel = document.getElementById('matchSelect');
-  sel.innerHTML = upcoming.map(m => `<option value="${m.id}"><img class="flag-img" src="${m.homeFlag}" alt=""> ${m.homeTeam} vs ${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt=""> (${m.date} ${m.time})</option>`).join('');
-  updateScoreLabels();
-  sel.addEventListener('change', updateScoreLabels);
-
+  sel.innerHTML = upcoming.map(m => `<option value="${m.id}">${m.homeTeam} vs ${m.awayTeam} (${m.date} ${m.time})</option>`).join('');
+  updatePredictLabels();
+  sel.addEventListener('change', updatePredictLabels);
   renderLeaderboard();
 }
 
-function updateScoreLabels() {
+function updatePredictLabels() {
   const sel = document.getElementById('matchSelect');
   if (!sel.value) return;
   const m = DATA.matches.find(x => x.id === parseInt(sel.value));
   if (!m) return;
-  document.getElementById('scoreTeamA').textContent = m.homeFlag + ' ' + m.homeTeam;
-  document.getElementById('scoreTeamB').textContent = m.awayTeam + ' ' + m.awayFlag;
+  document.getElementById('scoreTeamA').innerHTML = `<img class="flag-img" src="${m.homeFlag}" alt="" style="width:36px;height:24px;border-radius:3px;"> ${m.homeTeam}`;
+  document.getElementById('scoreTeamB').innerHTML = `${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt="" style="width:36px;height:24px;border-radius:3px;">`;
+  // Reset button states
+  document.querySelectorAll('.guess-btn').forEach(b => b.classList.remove('selected'));
 }
 
-function submitPrediction() {
+function submitPrediction(guess) {
   const nick = document.getElementById('nicknameInput').value.trim();
   if (!nick) { showMsg('請先輸入暱稱！', 'var(--red)'); return; }
   const matchId = parseInt(document.getElementById('matchSelect').value);
-  const a = parseInt(document.getElementById('scoreA').value) || 0;
-  const b = parseInt(document.getElementById('scoreB').value) || 0;
   const match = DATA.matches.find(m => m.id === matchId);
   if (!match) return;
 
@@ -2657,17 +2652,22 @@ function submitPrediction() {
   }
 
   // Calculate pts if match is done
-  let pts = 0, star = false;
+  let pts = 0;
   if (match.score) {
     const [ra, rb] = match.score.split('-').map(Number);
-    const predResult = a > b ? 'W' : a < b ? 'L' : 'D';
-    const realResult = ra > rb ? 'W' : ra < rb ? 'L' : 'D';
-    if (predResult === realResult) pts += 1;
-    if (a === ra && b === rb) { pts += 3; star = true; }
+    const realResult = ra > rb ? 'H' : ra < rb ? 'A' : 'D';
+    if (guess === realResult) pts = 3;
   }
 
-  user.preds.push({ matchId, a, b, pts, star });
-  showMsg(`✅ 估分已提交！${myNickname} 估 ${match.homeTeam} ${a} - ${b} ${match.awayTeam}`, 'var(--green-dim)');
+  user.preds.push({ matchId, guess, pts });
+
+  // Show selected button feedback
+  document.querySelectorAll('.guess-btn').forEach(b => b.classList.remove('selected'));
+  const selBtn = document.getElementById('guess' + guess);
+  if (selBtn) selBtn.classList.add('selected');
+
+  const guessText = { H: match.homeTeam + ' 勝', D: '平局', A: match.awayTeam + ' 勝' }[guess];
+  showMsg(`✅ 已估：${guessText}！`, 'var(--green-dim)');
   renderLeaderboard();
   showToast('🎯 估分提交成功！');
 }
@@ -2690,12 +2690,15 @@ function renderLeaderboard() {
     const sc = calcUserScore(u);
     const last = u.preds.length ? u.preds[u.preds.length - 1] : null;
     const lastMatch = last ? DATA.matches.find(m => m.id === last.matchId) : null;
-    const lastStr = lastMatch ? `<img class="flag-img" src="${lastMatch.homeFlag}" alt=""> ${lastMatch.homeTeam} ${last.a}-${last.b} ${lastMatch.awayTeam} <img class="flag-img" src="${lastMatch.awayFlag}" alt="">` : '-';
+    const guessText = { H: '主勝', D: '和', A: '客勝' };
+    const lastStr = lastMatch ? `<img class="flag-img" src="${lastMatch.homeFlag}" alt=""> ${lastMatch.homeTeam} <span style="font-size:0.7rem;color:var(--text-muted)">vs</span> ${lastMatch.awayTeam} <img class="flag-img" src="${lastMatch.awayFlag}" alt=""> <span style="font-size:0.65rem;color:var(--gold)">${guessText[last.guess] || ''}</span>` : '-';
     return { ...u, ...sc, lastStr };
   }).sort((a, b) => b.total - a.total || b.correct - a.correct);
 
   const rankColors = ['gold', 'silver', 'bronze'];
-  document.getElementById('leaderboardBody').innerHTML = sorted.map((u, i) => `
+  document.getElementById('leaderboardBody').innerHTML = sorted.length === 0
+    ? '<div class="empty-state" style="padding:40px 20px;"><div class="empty-title" style="color:var(--text-muted);">🎯 暫無估分記錄</div><div style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">成為第一個估分嘅朋友！</div></div>'
+    : sorted.map((u, i) => `
     <div class="lb-row ${u.nick === myNickname ? 'me' : ''}" onclick="showHistory('${u.nick}')">
       <div class="lb-rank ${rankColors[i] || ''}">${i === 0 ? '👑' : i + 1}</div>
       <div class="lb-nick">${u.nick === myNickname ? '⭐ ' : ''}${u.nick}</div>
@@ -2709,6 +2712,8 @@ function renderLeaderboard() {
 function showHistory(nick) {
   const user = DATA.predictions.find(u => u.nick === nick);
   if (!user) return;
+  const guessText = { H: '主隊勝', D: '平局', A: '客隊勝' };
+  const guessEmoji = { H: '🏠', D: '🤝', A: '✈️' };
   document.getElementById('modalTitle').innerHTML = `📋 ${nick} 的估分歷史`;
   document.getElementById('modalBody').innerHTML = user.preds.length === 0
     ? '<div class="empty-state"><div class="empty-title">暫無估分記錄</div></div>'
@@ -2719,11 +2724,11 @@ function showHistory(nick) {
         let resultClass = 'pending', resultText = '待定';
         if (!isPending) {
           resultClass = p.pts > 0 ? 'correct' : 'wrong';
-          resultText = p.pts > 0 ? (p.star ? '🌟 完全命中' : '✓ 猜中') : '✗ 未中';
+          resultText = p.pts > 0 ? '🎯 估中' : '✗ 未中';
         }
         return `<div class="history-row">
           <div class="history-match"><img class="flag-img" src="${m.homeFlag}" alt=""> ${m.homeTeam} vs ${m.awayTeam} <img class="flag-img" src="${m.awayFlag}" alt=""></div>
-          <div class="history-pred">${p.a} - ${p.b}</div>
+          <div class="history-pred">${guessEmoji[p.guess] || ''} ${guessText[p.guess] || ''}</div>
           <div class="history-result ${resultClass}">${resultText}</div>
           <div class="history-pts">${isPending ? '-' : '+'+p.pts}</div>
         </div>`;
