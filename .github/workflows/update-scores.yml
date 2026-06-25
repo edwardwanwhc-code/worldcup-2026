@@ -6,6 +6,10 @@ on:
     - cron: '0 2,14 * * *'
   workflow_dispatch:
     inputs:
+      api_source:
+        description: 'API source to use (api-football, football-data)'
+        required: false
+        default: 'api-football'
       dry_run:
         description: 'Run without committing changes'
         required: false
@@ -36,7 +40,9 @@ jobs:
     
     - name: Update match scores
       env:
+        API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+        API_SOURCE: ${{ github.event.inputs.api_source || 'api-football' }}
         DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
       run: |
         python .github/scripts/update_scores.py
