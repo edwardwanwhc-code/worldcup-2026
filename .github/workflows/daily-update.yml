@@ -1,0 +1,82 @@
+name: "🏆 Daily World Cup 2026 Update"
+
+on:
+  schedule:
+    # 每日 23:00 HKT = 15:00 UTC
+    - cron: "0 15 * * *"
+  workflow_dispatch:  # 容許手動觸發
+
+permissions:
+  contents: write  # 俾 Actions 有權 commit + push
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: "⬇️ Checkout repo"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 攞晒成個 git history
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🐍 Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: "📦 Install dependencies"
+        run: |
+          pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml
+
+      - name: "🏆 Run World Cup update script"
+        id: update
+        run: |
+          python update_worldcup.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+
+      - name: "📊 Check for changes"
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain worldcup-2026.html 2>/dev/null || git status --porcelain index.html 2>/dev/null) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "[INFO] Changes detected in HTML files"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "[INFO] No changes detected"
+          fi
+
+      - name: "💾 Commit & Push (if changed)"
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "🏆 World Cup Bot"
+          git config user.email "worldcup-bot@github.com"
+
+          # Commit all changed HTML files
+          git add worldcup-2026.html index.html 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "🏆 自動更新：$(TZ=Asia/Hong_Kong date +%Y-%m-%d) 賽果同步 [GitHub Actions]"
+
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🔔 Notify (if push_to_wechat configured)"
+        if: always()
+        run: |
+          echo "[INFO] Update job completed with status: ${{ job.status }}"
+          # TODO: Add WeChat webhook notification here
+          # if [[ -n "$WECHAT_WEBHOOK" ]]; then curl ...; fi
+        env:
+          JOB_STATUS: ${{ job.status }}
+
+      - name: "📋 Upload update log (on failure)"
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-logs
+          path: "*.log"
+          retention-days: 7
